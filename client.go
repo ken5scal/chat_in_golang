@@ -10,22 +10,23 @@ type client struct {
 
 // Client read message by using ReadMessage in WebSocket
 func (c *client) read() {
+	defer c.socket.Close() // Closing WebSocket
 	for {
-		if _, msg, err := c.socket.ReadMessage(); err != nil {
-			c.room.forward <- msg
-		} else {
-			break
+		_, msg, err := c.socket.ReadMessage()
+		if  err != nil {
+			return
 		}
-		c.socket.Close() // Closing WebSocket
+		c.room.forward <- msg
 	}
 }
 
 // Receive messages from send channel and Write by using WriteMessage in WebSocket
 func (c *client) write() {
+	defer c.socket.Close()
 	for msg := range c.send {
-		if err := c.socket.WriteMessage(websocket.TextMessage, msg); err!=nil {
-			break
+		err := c.socket.WriteMessage(websocket.TextMessage, msg);
+		if  err!=nil {
+			return
 		}
 	}
-	c.socket.Close()
 }
