@@ -14,7 +14,6 @@ type templateHandler struct {
 	templ *template.Template
 }
 
-
 func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t.once.Do(func() {
 		t.templ = template.Must(template.ParseFiles(filepath.Join("templates", t.filename)))
@@ -36,8 +35,11 @@ func main() {
 	//	</html>
 	//	`))
 	//})
+	r := newRoom()
 	t1 := templateHandler{filename: "chat.html"}
 	http.Handle("/", &t1)
+	http.Handle("/room", r)
+	go r.run() // start chat room
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndService:", err)
