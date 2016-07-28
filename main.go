@@ -41,7 +41,7 @@ func main() {
 	http.Handle("/room", r)
 	go r.run() // start chat room
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8888", nil); err != nil {
 		log.Fatal("ListenAndService:", err)
 	}
 }
