@@ -4,14 +4,9 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	//"os"
 	"path/filepath"
 	"sync"
 	"text/template"
-
-	//"github.com/matryer/goblueprints/chapter1/trace"
-	"os"
-	"github.com/ken5scal/chat/trace"
 )
 
 // templ represents a single template
@@ -34,7 +29,7 @@ func main() {
 	flag.Parse() // parse the flags
 
 	r := newRoom()
-	r.tracer = trace.New(os.Stdout)
+	//r.tracer = trace.New(os.Stdout)
 
 	http.Handle("/", &templateHandler{filename: "chat.html"})
 	http.Handle("/room", r)
