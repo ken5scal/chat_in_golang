@@ -4,14 +4,15 @@ import (
 	"github.com/gorilla/websocket"
 	"net/http"
 	"log"
+	"github.com/ken5scal/chat/trace"
 )
 
 type room struct {
 	forward chan []byte // Que message to other clients
-	join chan *client
-	leave chan *client
-
-	clients map[*client]bool
+	join chan *client	// channel for client who attempts to join the room
+	leave chan *client // channel for client who attempts to leave the room
+	clients map[*client]bool // all client in room
+	tracer trace.Tracer // receives vent log on chat room
 }
 
 func newRoom() *room {
@@ -30,16 +31,21 @@ func (r *room) run() {
 		// They run concurrently, so change in r.clients do not happen simultaneously
 		case client := <- r.join:
 			r.clients[client] = true
+			r.tracer.Trace("New Client joined")
 		case client := <- r.leave:
 			delete(r.clients, client)
 			close(client.send) // difference between closing socket and channel?
+			r.tracer.Trace("Client left")
 		case msgInByte := <- r.forward:
+			r.tracer.Trace("Received message: ", string(msgInByte))
 			for client := range r.clients {
 				select {
 				case client.send <- msgInByte:
+					r.tracer.Trace(" -- has been sent to client")
 				default:
 					delete(r.clients, client)
 					close(client.send)
+					r.tracer.Trace(" -- failed sending")
 				}
 			}
 		}
