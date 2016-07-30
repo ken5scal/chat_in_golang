@@ -29,7 +29,7 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	var addr = flag.String("addr", ":8080", "The addr of the application.")
-	//flag.Parse() // parse the flags
+	flag.Parse() // parse the flags
 
 	r := newRoom()
 	//r.tracer = trace.New(os.Stdout)
@@ -41,7 +41,7 @@ func main() {
 	go r.run()
 
 	// start the web server
-	//log.Println("Starting web server on", *addr)
+	log.Println("Starting web server on", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
