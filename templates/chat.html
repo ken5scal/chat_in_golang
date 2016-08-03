@@ -34,10 +34,9 @@
             return false;
           }
 
-          socket.send(msgBox.val());
+          socket.send(JSON.stringify({"Message": msgBox.val()}));
           msgBox.val("");
           return false;
-
         });
 
         if (!window["WebSocket"]) {
@@ -48,7 +47,13 @@
             alert("Connection has been closed.");
           }
           socket.onmessage = function(e) {
-            messages.append($("<li>").text(e.data));
+            var msg = eval("("+e.data+")");
+            messages.append(
+                $("<li>").append(
+                    $("<strong>").text(msg.Name + ": "),
+                    $("<span>").text(msg.Message)
+                )
+            );
           }
         }
 

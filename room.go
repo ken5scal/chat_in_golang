@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"log"
 	"github.com/ken5scal/chat/trace"
+	"github.com/stretchr/objx"
 )
 
 type room struct {
-	forward chan []byte // Que message to other clients
+	forward chan *message // Que message to other clients
 	join chan *client	// channel for client who attempts to join the room
 	leave chan *client // channel for client who attempts to leave the room
 	clients map[*client]bool // all client in room
@@ -17,7 +18,7 @@ type room struct {
 
 func newRoom() *room {
 	return &room{
-		forward: make(chan []byte),
+		forward: make(chan *message),
 		join: make(chan *client),
 		leave: make(chan *client),
 		clients: make(map[*client]bool),
@@ -37,11 +38,11 @@ func (r *room) run() {
 			delete(r.clients, client)
 			close(client.send) // difference between closing socket and channel?
 			r.tracer.Trace("Client left")
-		case msgInByte := <- r.forward:
-			r.tracer.Trace("Received message: ", string(msgInByte))
+		case msg := <- r.forward:
+			r.tracer.Trace("Received message: ", msg.Message)
 			for client := range r.clients {
 				select {
-				case client.send <- msgInByte:
+				case client.send <- msg:
 					r.tracer.Trace(" -- has been sent to client")
 				default:
 					delete(r.clients, client)
@@ -71,10 +72,17 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	authCookie, err := req.Cookie("auth")
+	if err != nil {
+		log.Fatal("Failed fetching cookie: ", err)
+		return
+	}
+
 	client := &client{	// generate Client
 		socket: socket,
-		send: make(chan []byte, messageBufferSize),
+		send: make(chan *message, messageBufferSize),
 		room: r,
+		userData: objx.MustFromBase64(authCookie.Value),
 	}
 
 	r.join <- client
