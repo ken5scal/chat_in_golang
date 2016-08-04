@@ -45,7 +45,7 @@ func main() {
 	gomniauth.SetSecurityKey("asdfasdf")
 	gomniauth.WithProviders(
 		facebook.New("1032005158087-2e5glvo84j51kbkg82b3ep77uie1rhr3.apps.googleusercontent.com", "ZC7L37j_Gb08UnwwnixZIzTB", "http://localhost:8080/auth/callback/facebook"),
-		github.New("1032005158087-2e5glvo84j51kbkg82b3ep77uie1rhr3.apps.googleusercontent.com", "ZC7L37j_Gb08UnwwnixZIzTB", "http://localhost:8080/auth/callback/github"),
+		github.New("4dffc8e36d60ca04926c", "9be3b1b5c7ee232a3b72db7062f9fcb13b28e36e", "http://localhost:8080/auth/callback/github"),
 		google.New("1032005158087-ag5st1h07fp8snuh6b1du64sirla7hg0.apps.googleusercontent.com", "yH7Bb8iTGs1-r_F1k9kaIrCP", "http://localhost:8080/auth/callback/google"),
 	)
 
