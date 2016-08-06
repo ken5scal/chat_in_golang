@@ -4,6 +4,7 @@
       <root url="file://$PROJECT_DIR$/../.." />
       <root url="file://$PROJECT_DIR$/../../../golang.org" />
       <root url="file://$PROJECT_DIR$/../../../9fans.net" />
+      <root url="file://$PROJECT_DIR$/../../../labix.org" />
       <root url="file://$PROJECT_DIR$/../../../gopkg.in" />
     </CLASSES>
     <JAVADOC />
@@ -11,6 +12,7 @@
       <root url="file://$PROJECT_DIR$/../.." />
       <root url="file://$PROJECT_DIR$/../../../golang.org" />
       <root url="file://$PROJECT_DIR$/../../../9fans.net" />
+      <root url="file://$PROJECT_DIR$/../../../labix.org" />
       <root url="file://$PROJECT_DIR$/../../../gopkg.in" />
     </SOURCES>
     <excluded>
