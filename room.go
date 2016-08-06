@@ -14,15 +14,17 @@ type room struct {
 	leave chan *client // channel for client who attempts to leave the room
 	clients map[*client]bool // all client in room
 	tracer trace.Tracer // receives vent log on chat room
+	avatar Avatar  // avatar info
 }
 
-func newRoom() *room {
+func newRoom(avatar Avatar) *room {
 	return &room{
 		forward: make(chan *message),
 		join: make(chan *client),
 		leave: make(chan *client),
 		clients: make(map[*client]bool),
 		tracer: trace.Off(),
+		avatar: avatar,
 	}
 }
 
