@@ -14,7 +14,7 @@ type Avatar interface {
 var ErrNoAvatarURL = errors.New("chat: Failed fetching avatart URL")
 
 type AuthAvatar struct {}
-var UseAuthAvatar AuthAvatar
+//var UseAuthAvatar AuthAvatar
 
 // receiver (_ AuthAvatar) means AuthAvatar will not be referenced within the method
 func (_ AuthAvatar) GetAvatarURL(c *client) (string, error) {
