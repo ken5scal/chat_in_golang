@@ -9,18 +9,22 @@ import (
 
 func TestAuthAvatar(t *testing.T) {
 	var authAvatar AuthAvatar
-	client := new(client)
+	testUser := &gomniauthtest.TestUser{}
+	testUser.On("AvatarURL").Return("", ErrNoAvatarURL)
+	testChatUser := &chatUser{User: testUser}
+	url, err := authAvatar.GetAvatarURL(testChatUser)
 
-	// No URL has been set
-	url, err := authAvatar.GetAvatarURL(client);
 	if err != ErrNoAvatarURL {
 		t.Error("If No Value exists, AuthAvata.GetAvatarURL should return ErrorNoAvatarURL")
 	}
 
 	// URL has been set
 	testUrl := "http://url-to-avatar/"
-	client.userData = map[string]interface{}{"avatar_url": testUrl}
-	url, err = authAvatar.GetAvatarURL(client); if err != nil {
+	testUser = &gomniauthtest.TestUser{}
+	testChatUser.User = testUser
+	testUser.On("AvatarURL").Return(testURL, nil)
+	url, err = authAvatar.GetAvatarURL(testChatUser)
+	if err != nil {
 		t.Error("If Value Exists, GetAvatarURL should not return Error")
 	} else {
 		if url != testUrl {
@@ -31,16 +35,13 @@ func TestAuthAvatar(t *testing.T) {
 
 func TestGravatarAvatar(t *testing.T) {
 	var gAvatar GravatarAvatar
-	client := new(client)
+	user := &chatUser{uniqueID: "abc"}
+	url, err := gAvatar.GetAvatarURL(user)
 
-	client.userData = map[string]interface{} {
-		"userid": "0bc83cb571cd1c50ba6f3e8a78ef1346",
-	}
-	url, err := gAvatar.GetAvatarURL(client);
 	if err != nil {
 		t.Error("GravatarAvatar.GetAvatarURL should not return Error")
 	}
-	if url != "//www.gravatar.com/avatar/" + "0bc83cb571cd1c50ba6f3e8a78ef1346" {
+	if url != "//www.gravatar.com/avatar/" + "abc" {
 		t.Errorf("Wrong url: %s", url)
 	}
 }
@@ -52,9 +53,8 @@ func TestFileSystemAvatar(t *testing.T) {
 	defer func() {os.Remove(filename)}()
 
 	var fileSystemAvatar FileSystemAvatar
-	client := new(client)
-	client.userData = map[string]interface{}{"userid": "abc"}
-	url, err := fileSystemAvatar.GetAvatarURL(client)
+	user := &chatUser{uniqueID: "abc"}
+	url, err := fileSystemAvatar.GetAvatarURL(user)
 	if err != nil {
 		t.Error("FileSystemAdaptar.GetAvatarURL Should not return error")
 	}
