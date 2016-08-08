@@ -3,9 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"crypto/md5"
-	"io"
-	"strings"
 )
 
 type Avatar interface {
@@ -33,9 +30,7 @@ var UseGravatar GravatarAvatar
 func (_ GravatarAvatar) GetAvatarURL(c *client) (string, error) {
 	if userid, ok := c.userData["userid"]; ok {
 		if useridStr, ok := userid.(string); ok {
-			m := md5.New()
-			io.WriteString(m, strings.ToLower(useridStr))
-			return fmt.Sprintf("//www.gravatar.com/avatar/%x", m.Sum(nil)), nil
+			return "//www.gravatar.com/avatar/" + useridStr, nil
 		}
 	}
 	return "", ErrNoAvatarURL

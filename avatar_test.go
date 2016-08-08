@@ -28,12 +28,14 @@ func TestGravatarAvatar(t *testing.T) {
 	var gAvatar GravatarAvatar
 	client := new(client)
 
-	client.userData = map[string]interface{}{"useid": "0bc83cb571cd1c50ba6f3e8a78ef1346"}
+	client.userData = map[string]interface{} {
+		"userid": "0bc83cb571cd1c50ba6f3e8a78ef1346",
+	}
 	url, err := gAvatar.GetAvatarURL(client);
 	if err != nil {
 		t.Error("GravatarAvatar.GetAvatarURL should not return Error")
 	}
 	if url != "//www.gravatar.com/avatar/" + "0bc83cb571cd1c50ba6f3e8a78ef1346" {
-		t.Errorf("Wrong url: %s, url")
+		t.Errorf("Wrong url: %s", url)
 	}
 }
