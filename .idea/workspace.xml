@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3f4fe06-4978-49a7-8e37-ebf32a8444a1" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/avatars/2518ae71e9f03fede2f598a485ee1935.jpeg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chat" afterPath="$PROJECT_DIR$/chat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/avatar.go" afterPath="$PROJECT_DIR$/avatar.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/avatar_test.go" afterPath="$PROJECT_DIR$/avatar_test.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client.go" afterPath="$PROJECT_DIR$/client.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auth.go" afterPath="$PROJECT_DIR$/auth.go" />
     </list>
     <ignored path="chat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="avatar.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="avatar.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/avatar.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="55" column="40" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="40" />
+            <state relative-caret-position="171">
+              <caret line="51" column="32" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
               <folding>
                 <element signature="e#14#71#0" expanded="true" />
                 <marker date="1470674851000" expanded="false" signature="256:266" ph="..." />
@@ -101,13 +95,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auth.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="auth.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/auth.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="73" column="42" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="42" />
+            <state relative-caret-position="210">
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
               <folding>
-                <element signature="e#14#142#0" expanded="true" />
+                <element signature="e#14#198#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -175,12 +169,12 @@
         <option value="$PROJECT_DIR$/message.go" />
         <option value="$PROJECT_DIR$/templates/chat.html" />
         <option value="$PROJECT_DIR$/room.go" />
-        <option value="$PROJECT_DIR$/auth.go" />
         <option value="$PROJECT_DIR$/templates/upload.html" />
         <option value="$PROJECT_DIR$/avatar_test.go" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/client.go" />
         <option value="$PROJECT_DIR$/avatar.go" />
+        <option value="$PROJECT_DIR$/auth.go" />
       </list>
     </option>
   </component>
@@ -771,7 +765,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/auth.go</url>
-          <line>73</line>
+          <line>88</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
@@ -851,7 +845,7 @@
         <state relative-caret-position="1065">
           <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
           <folding>
-            <element signature="e#14#142#0" expanded="true" />
+            <element signature="e#14#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -932,7 +926,7 @@
         <state relative-caret-position="870">
           <caret line="65" column="35" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="35" />
           <folding>
-            <element signature="e#14#142#0" expanded="true" />
+            <element signature="e#14#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1013,7 +1007,7 @@
         <state relative-caret-position="870">
           <caret line="65" column="35" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="35" />
           <folding>
-            <element signature="e#14#142#0" expanded="true" />
+            <element signature="e#14#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1097,7 +1091,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#142#0" expanded="true" />
+            <element signature="e#14#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1230,16 +1224,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auth.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="73" column="42" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="42" />
-          <folding>
-            <element signature="e#14#142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/chat.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="117">
@@ -1270,11 +1254,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/avatar.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="55" column="40" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="40" />
+        <state relative-caret-position="171">
+          <caret line="51" column="32" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
           <folding>
             <element signature="e#14#71#0" expanded="true" />
             <marker date="1470674851000" expanded="false" signature="256:266" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auth.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+          <folding>
+            <element signature="e#14#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
