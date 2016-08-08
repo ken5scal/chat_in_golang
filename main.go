@@ -68,6 +68,7 @@ func main() {
 	})
 	http.Handle("/room", r)
 	http.Handle("/upload", &templateHandler{filename: "upload.html"})
+	http.HandleFunc("/uploader", uploaderHandler)
 
 	// get the room going
 	go r.run()
