@@ -67,6 +67,7 @@ func main() {
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
 	http.Handle("/room", r)
+	http.Handle("/upload", &templateHandler{filename: "upload.html"})
 
 	// get the room going
 	go r.run()
