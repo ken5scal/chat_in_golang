@@ -15,7 +15,9 @@ type templateHandler struct {
 }
 
 func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// Lazy Initialization.
 	t.once.Do(func() {
+		// once.Do only executes function once (even multiple goroutine calls serveHTTP\
 		t.templ = template.Must(template.ParseFiles(filepath.Join("templates", t.filenae)))
 	})
 	t.templ.Execute(w, nil)
