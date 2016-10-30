@@ -2,10 +2,11 @@ package main
 
 import (
 	"net/http"
-	"text/template"
-	"sync"
-	"github.com/labstack/gommon/log"
 	"path/filepath"
+	"sync"
+	"text/template"
+
+	"github.com/labstack/gommon/log"
 )
 
 type templateHandler struct {
@@ -24,10 +25,13 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	r := newRoom()
 	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 	//	w.Write([]byte(`<html><body>hogehoge</body></html>`))
 	//})
 	http.Handle("/", &templateHandler{filenae: "chat.html"})
+	http.Handle("/", r)
+	go r.run()
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServer:", err)
