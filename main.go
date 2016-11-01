@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"sync"
 	"text/template"
-
-	"github.com/labstack/gommon/log"
+	"flag"
+	"log"
 )
 
 type templateHandler struct {
@@ -21,10 +21,12 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// once.Do only executes function once (even multiple goroutine calls serveHTTP\
 		t.templ = template.Must(template.ParseFiles(filepath.Join("templates", t.filenae)))
 	})
-	t.templ.Execute(w, nil)
+	t.templ.Execute(w, r)
 }
 
 func main() {
+	var addr = flag.String("addr", ":8080", "IP address")
+	flag.Parse()
 	r := newRoom()
 	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 	//	w.Write([]byte(`<html><body>hogehoge</body></html>`))
@@ -33,6 +35,7 @@ func main() {
 	http.Handle("/room", r)
 	go r.run()
 
+	log.Println("Starting Web. Port: ", *addr)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServer:", err)
 	}
