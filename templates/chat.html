@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chat</title>
-</head>
-<body>
-hogehoge
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Chat</title>
+        <style>
+            input { display: block; }
+            ul { list-style: none; }
+        </style>
+    </head>
+    <body>
+        <ul id="messages"></ul>
+        WebSocket Chat App
+        <form id="chatbox">
+            <textarea></textarea>
+            <input type="submit" value="send" />
+        </form>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+        </script>
+        <script>
+            $(function() {
+                var socket =null;
+                var msgBox = $("#chatbox textare");
+                var messages 
+            }
+        </script>
+    </body>
 </html>
