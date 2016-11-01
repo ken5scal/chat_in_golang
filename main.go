@@ -30,7 +30,7 @@ func main() {
 	//	w.Write([]byte(`<html><body>hogehoge</body></html>`))
 	//})
 	http.Handle("/", &templateHandler{filenae: "chat.html"})
-	http.Handle("/", r)
+	http.Handle("/room", r)
 	go r.run()
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
