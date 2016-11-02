@@ -1,4 +1,9 @@
-package main
+package trace
 
-func main() {
+import (
+	"testing"
+)
+
+func TestNew(t *testing.T) {
+	t.Error("NO test")
 }
