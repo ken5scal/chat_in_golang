@@ -10,6 +10,8 @@ import (
 	"text/template"
 
 	"github.com/matryer/goblueprints/chapter1/trace"
+	"github.com/stretchr/gomniauth"
+	"github.com/stretchr/gomniauth/providers/google"
 )
 
 // templ represents a single template
@@ -30,6 +32,14 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8080", "The addr of the application.")
 	flag.Parse() // parse the flags
+
+	gomniauth.SetSecurityKey("hogehoge") // Should be stronger
+	gomniauth.WithProviders(
+		google.New(
+			"211173608599-v84v655fc34l78qdhd552r8ius95om1q.apps.googleusercontent.com",
+			"n3PiUDTeA5JJMWxLsnfQ2s7I",
+			"http://localhost:8080/auth/callback/google"),
+	)
 
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
