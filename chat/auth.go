@@ -8,15 +8,20 @@ type authHandler struct {
 
 func (h *authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if _, err := r.Cookie("auth"); err == http.ErrNoCookie {
+		// Not Authenticated
 		w.Header().Set("Location", "/login")
 		w.WriteHeader(http.StatusTemporaryRedirect)
+		return
 	} else if err != nil {
+		// Error
 		panic(err.Error())
-	} else {
-		h.next.ServeHTTP(w, r)
+		return
 	}
+	// Call Wrapped handler
+	h.next.ServeHTTP(w, r)
 }
 
+// MustAuth adapts handler to ensure authentication has occurred.
 func MustAuth(handler http.Handler) http.Handler {
 	return &authHandler{next: handler}
 }
