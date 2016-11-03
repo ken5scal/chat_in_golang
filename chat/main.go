@@ -40,11 +40,11 @@ func main() {
 	var addr = flag.String("addr", ":8080", "The addr of the application.")
 	flag.Parse() // parse the flags
 
-	gomniauth.SetSecurityKey("hogehoge") // Should be stronger
+	gomniauth.SetSecurityKey("YOU MAKE YOU OWN SECURITY KEY") // Should be strong
 	gomniauth.WithProviders(
 		google.New(
-			"211173608599-v84v655fc34l78qdhd552r8ius95om1q.apps.googleusercontent.com",
-			"n3PiUDTeA5JJMWxLsnfQ2s7I",
+			"CLIENT ID FROM GOOGLE API",
+			"CLIENT SECRET FROM GOOGLE API",
 			"http://localhost:8080/auth/callback/google"),
 	)
 
@@ -56,6 +56,16 @@ func main() {
 	http.Handle("/login", &templateHandler{filename: "login.html"})
 	http.Handle("/room", r)
 	http.HandleFunc("/auth/", loginHandler)
+	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		http.SetCookie(w, &http.Cookie{
+			Name: "auth",
+			Value: "",
+			Path: "/",
+			MaxAge: -1, // Instantaneously delte cookie on browser
+		})
+		w.Header()["Location"] = []string{"/chat"}
+		w.WriteHeader(http.StatusTemporaryRedirect)
+	})
 
 	// get the room going
 	go r.run()
