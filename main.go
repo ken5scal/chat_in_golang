@@ -8,7 +8,8 @@ import (
 	"path/filepath"
 	"sync"
 	"text/template"
-	"github.com/ken5scal/chat/trace"
+
+	"github.com/matryer/goblueprints/chapter1/trace"
 )
 
 // templ represents a single template
