@@ -1,23 +1,25 @@
 <html>
-  <head>
+<head>
     <title>Chat</title>
     <style>
 
       input { display: block; }
       ul    { list-style: none; }
 
+
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
-    <ul id="messages"></ul>
-    <form id="chatbox">
-      <textarea></textarea>
-      <input type="submit" value="Send" />
-    </form>
+<ul id="messages"></ul>
+<form id="chatbox">
+    {{.UserData.name}}:<br/>
+    <textarea></textarea>
+    <input type="submit" value="Send"/>
+</form>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
 
       $(function(){
 
@@ -53,6 +55,7 @@
 
       });
 
-    </script>
-  </body>
+
+</script>
+</body>
 </html>
