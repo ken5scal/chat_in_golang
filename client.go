@@ -4,30 +4,35 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// client represents a single chatting user.
 type client struct {
-	// Socket for client
+	// socket is the web socket for this client.
 	socket *websocket.Conn
-	// Channel where message is send
-	send_chan chan []byte
-	room      *room
+
+	// send is a channel on which messages are sent.
+	send_chan   chan []byte
+
+	// room is the room this client is chatting in.
+	room   *room
 }
 
 func (c *client) read() {
+	defer c.socket.Close()
 	for {
-		if _, msg, err := c.socket.ReadMessage(); err == nil {
-			c.room.fwd_chan <- msg
-		} else {
-			break
+		_, msg, err := c.socket.ReadMessage()
+		if err != nil {
+			return
 		}
+		c.room.forward <- msg
 	}
-	c.socket.Close()
 }
 
 func (c *client) write() {
+	defer c.socket.Close()
 	for msg := range c.send_chan {
-		if err := c.socket.WriteMessage(websocket.TextMessage, msg); err != nil {
-			break
+		err := c.socket.WriteMessage(websocket.TextMessage, msg)
+		if err != nil {
+			return
 		}
 	}
-	c.socket.Close()
 }

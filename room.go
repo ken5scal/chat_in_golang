@@ -5,39 +5,69 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"github.com/ken5scal/chat/trace"
 )
 
 type room struct {
-	//channel that olds message pending to transfer
-	fwd_chan chan []byte
+	// forward is a channel that holds incoming messages
+	// that should be forwarded to the other clients.
+	forward chan []byte
 
-	// Channel for clients waiting to join
-	join_chan chan *client
+	// join is a channel for clients wishing to join the room.
+	join    chan *client
 
-	// Channel for clients waiting or leaving
-	leave_chan chan *client
+	// leave is a channel for clients wishing to leave the room.
+	leave   chan *client
 
+	// clients holds all current clients in this room.
 	clients map[*client]bool
+
+	// tracer will receive trace information of activity
+	// in the room.
+	tracer  trace.Tracer
 }
 
+// newRoom makes a new room that is ready to
+// go.
 func newRoom() *room {
 	return &room{
-		fwd_chan:   make(chan []byte),
-		join_chan:  make(chan *client),
-		leave_chan: make(chan *client),
-		clients:    make(map[*client]bool),
+		forward: make(chan []byte),
+		join:    make(chan *client),
+		leave:   make(chan *client),
+		clients: make(map[*client]bool),
+		tracer:  trace.Off(),
+	}
+}
+
+func (r *room) run() {
+	for {
+		select {
+		case client := <-r.join:
+		// joining
+			r.clients[client] = true
+			r.tracer.Trace("New client joined")
+		case client := <-r.leave:
+		// leaving
+			delete(r.clients, client)
+			close(client.send_chan)
+			r.tracer.Trace("Client left")
+		case msg := <-r.forward:
+			r.tracer.Trace("Message received: ", string(msg))
+		// forward message to all clients
+			for client := range r.clients {
+				client.send_chan <- msg
+				r.tracer.Trace(" -- sent to client")
+			}
+		}
 	}
 }
 
 const (
-	socketBufferSize  = 1024
+	socketBufferSize = 1024
 	messageBufferSize = 256
 )
 
-var upgrader = &websocket.Upgrader{
-	ReadBufferSize:  socketBufferSize,
-	WriteBufferSize: socketBufferSize,
-}
+var upgrader = &websocket.Upgrader{ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
 
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	socket, err := upgrader.Upgrade(w, req, nil)
@@ -46,39 +76,14 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	client := &client{
-		socket:    socket,
-		send_chan: make(chan []byte, messageBufferSize),
-		room:      r,
+		socket: socket,
+		send_chan:   make(chan []byte, messageBufferSize),
+		room:   r,
 	}
-
-	r.join_chan <- client
-	defer func() { r.leave_chan <- client }()
-
+	r.join <- client
+	defer func() {
+		r.leave <- client
+	}()
 	go client.write()
 	client.read()
-}
-
-func (r *room) run() {
-	for {
-		select {
-		case client := <-r.join_chan:
-			// Join
-			r.clients[client] = true
-		case client := <-r.leave_chan:
-			// Leave
-			delete(r.clients, client)
-			close(client.send_chan)
-		case msg := <-r.fwd_chan:
-			// Forwad a message to all clients within the room
-			for client := range r.clients {
-				select {
-				case client.send_chan <- msg:
-					// By sending message to channel, client.write() will be executed.
-				default:
-					delete(r.clients, client)
-					close(client.send_chan)
-				}
-			}
-		}
-	}
 }
